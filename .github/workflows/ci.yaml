@@ -1,5 +1,12 @@
 name: Greeting
-on: [push, workflow_dispatch]
+# on: [push, workflow_dispatch]
+on:
+    push:
+        branches:
+            - main
+        paths-ignore:
+            - "./github/workflows/*" #if any changes in this folder it can ignore .
+
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -16,11 +23,11 @@ jobs:
               uses: actions/setup-node@v6
               with:
                   node-version: 20
-            - name: install cache dependencies   # it use for caching . like when install dependency caching can store that and it use next job like deploy our cases
-              uses: actions/cache@v4               
+            - name: install cache dependencies # it use for caching . like when install dependency caching can store that and it use next job like deploy our cases
+              uses: actions/cache@v4
               with:
-                path: ~/.npm
-                key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} #basically it generate a unic key value. 
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} #basically it generate a unic key value.
             - name: print node version
               run: node -v
             - name: Install Dependencies
@@ -38,11 +45,11 @@ jobs:
               uses: actions/setup-node@v6
               with:
                   node-version: 20
-            - name: install cache dependencies   # it use for caching . like when install dependency caching can store that and it use next job like deploy our cases
-              uses: actions/cache@v4               
+            - name: install cache dependencies # it use for caching . like when install dependency caching can store that and it use next job like deploy our cases
+              uses: actions/cache@v4
               with:
-                path: ~/.npm
-                key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
             - name: Install Dependencies
               run: npm ci # like npm install
             - name: Build the project
