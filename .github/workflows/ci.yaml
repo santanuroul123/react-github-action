@@ -1,8 +1,12 @@
 name: Greeting
-on: push
+on: [push, workflow_dispatch]
 jobs:
-    greet:
+    test:
         runs-on: ubuntu-latest
         steps:
             - name: "Greeting user"
-              run: echo "hello this santanu!"
+              run: |
+                  echo "Hello, world!"
+                  echo "code clone"
+                  echo "${{github}}"
+                  git clone https://github.com/${{github.repository}}.git
