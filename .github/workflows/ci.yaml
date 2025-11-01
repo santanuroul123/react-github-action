@@ -24,6 +24,7 @@ jobs:
               run: npm run test # beacaus test is my script. you can check package.json
 
     deploy:
+        needs: test #in there if test successfull is successfull after that then deploy run > first test run after that deploy run
         runs-on: ubuntu-latest
         steps:
             - name: get code
