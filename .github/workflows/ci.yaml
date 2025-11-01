@@ -35,8 +35,8 @@ jobs:
             - name: Run test
               run: npm run test # beacaus test is my script. you can check package.json
 
-    deploy:
-        needs: test #in there if test successfull is successfull after that then deploy run > first test run after that deploy run
+    build:
+        needs: test
         runs-on: ubuntu-latest
         steps:
             - name: get code
@@ -53,6 +53,22 @@ jobs:
             - name: Install Dependencies
               run: npm ci # like npm install
             - name: Build the project
-              run: npm run build # in there package.json havr build . when it build it give a disk folder
+              run: npm run build
+            - name: Upload dist artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dist-files # this same name use in deploy
+                  path: dist
+
+    deploy:
+        needs: build #in there if test successfull is successfull after that then deploy run > first test run after that deploy run
+        runs-on: ubuntu-latest
+        steps:
+            - name: download dist artifact
+              uses: actions/download-artifact@v5
+              with:
+                  name: dist-files # in build and deploy this name must be same
+                  path: dist
+
             - name: Deploy
               run: echo "Deploy successfull"
