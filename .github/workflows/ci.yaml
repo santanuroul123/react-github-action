@@ -4,9 +4,22 @@ jobs:
     test:
         runs-on: ubuntu-latest
         steps:
-            - name: "Greeting user"
-              run: |
-                  echo "Hello, world!"
-                  echo "code clone"
-                  echo "${{github}}"
-                  git clone https://github.com/${{github.repository}}.git
+            - name: get code
+              uses: actions/checkout@v5
+
+            #   run:
+            #       echo "Hello, world!"
+            #       echo "code clone"
+            #       echo "${{github}}"
+            #       git clone https://github.com/${{github.repository}}.git
+            - name: Install node 20
+              uses: actions/setup-node@v6
+              with:
+                  node-version: 20
+            - name: print node version
+              run: node -v
+            - name: Install Dependencies
+              run: npm ci # like npm install
+            - name: Run test
+              run: npm run test # beacaus test is my script. you can check package.json
+
